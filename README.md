@@ -1,5 +1,5 @@
 # bash project manager
-> extending prm (in examples prm is placeholder for programs final name)
+> extending prm (in examples prm is placeholder for program's final name)
 
 ### what it does
 
