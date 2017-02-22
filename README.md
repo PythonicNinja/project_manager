@@ -8,13 +8,12 @@
 
 ### how it does it
 
-- turns on prm/start.(sh/ py)
-- stores information about projects in prm/project_name/
+- stores information about projects in ~/.prm/projects/project_name/
     - start
     - stop
     - tasks
     - aliases
-- provides templates for creating projects based on template(s)
+- provides templates for creating projects based on template(s) that are stored in ~/.prm/templates/
 - shows information about current project in prompt
 
 ### usage
@@ -29,13 +28,13 @@ found corelation with | reaction
 --- | ---
 nothing | asks what to add under this **name** (project, task, alias, cancel)
 create \<name> [\*args] | creates project under **name** as instance of template(s) **[args]**
-projekt name [\*args] | turns on project or executes **project task (args[0]) [\*args[1:]]**
+project [name] [\*args] | turns on project or executes **project task name [\*args]**
 list [type] [-from] | lists all possible commands based on **type** (project (shows a/m time), task, alias), **-from** adds where command was added (project, template)
 help | shows this table
-edit [\*args] [-r] | helps you edit command, if found **-r** edits in source of command (if comes from template)
+edit [\*args] [-r] | helps you edit command, if found **-r** edits in source of command (eg. if comes from template)
 remove | removes command
 rename \<old> \<new> | renames command
-stop | executes cleaning tasks and stops active project
+stop | executes cleaning tasks, stops active project and comes back to directory before turning on project
 config | edits config
 aliases | edits names found in left side of this table (adding, changing or removing alias)
 
@@ -67,4 +66,15 @@ we are **turning on** our project
     cd ~/my_project/
     source ./env/bin/activate
     [my_project](env)$ 
+
+we are working on project...
+
+and finally our work is done
+
+we are **turning off** our project
+> commands from /project_name/stop are executed and we are coming back to directory before turning on project
+
+    [my_project](env)$ prm stop
+    deactivate
+    $
 
