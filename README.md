@@ -24,7 +24,7 @@ activates manager (adding /.../prm to .bashrc might be a good idea)
 
     $ prm input
 
-found corelation with | reaction
+input corelates to | reaction
 --- | ---
 nothing | asks what to add under this **name** (project, task, alias, cancel)
 create \<name> [\*args] | creates project under **name** as instance of template(s) **[args]**
@@ -77,4 +77,13 @@ we are **turning off** our project
     [my_project](env)$ prm stop
     deactivate
     $
+
+let's say we created **task** for deploying changes under name of deploy and can take as parameter -n for dry-run
+we turn it like that:
+
+    $ prm project_name deploy -n
+
+it executes project_name/start
+then **task** with parameter -n
+then executes project_name/stop
 
