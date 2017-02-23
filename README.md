@@ -1,68 +1,86 @@
-# bash project manager
-> extending prm (in examples prm is placeholder for program's final name)
+# Bash project manager
+It will be similar to [prm project](https://github.com/eivind88/prm)
 
-### what it does
+### What it does?
 
-- prepers your terminal for work on specific project
-- accomplishes tasks from specific projects in correct environment
+- helps you manage your projects and switch between them
+- runs specific tasks releted to the project in isolated enviornment
 
-### how it does it
+### How does it work?
 
-- stores information about projects in ~/.prm/projects/project_name/
+- stores information:
+
+File structure and extension is yet to be defined.
+Options to evaluate (yml, json, sh)
+
+in `~/.<project_manager>/projects/<project_name>/`
+
     - start
     - stop
     - tasks
-    - aliases
-- provides templates for creating projects based on template(s) that are stored in ~/.prm/templates/
-- shows information about current project in prompt
+
+in `~/.<project_manager>/templates/`
+
+    - contains templates for new projects
+    - when `<project_manager> start --tempaltes=osx,python,django` is run it will lookup folder for mapped templates and load them
 
 ### usage
 
-    $ prm
-    
-activates manager (adding /.../prm to .bashrc might be a good idea)
+    $ <project_manager>
+    if within pwd there is .project_manager.cfg then 
+        it start it
+    else 
+        asks to create new project in that directory
+        
+    $ <project_manager> <commend>
 
-    $ prm input
-
-input corelates to | reaction
+<commend> corelates to | reaction
 --- | ---
-nothing | asks what to add under this **name** (project, task, alias, cancel)
-create \<name> [\*args] | creates project under **name** as instance of template(s) **[args]**
-project [name] [\*args] | turns on project or executes **project task name [\*args]**
-list [type] [-from] | lists all possible commands based on **type** (project (shows a/m time), task, alias), **-from** adds where command was added (project, template)
-help | shows this table
-edit [\*args] [-r] | helps you edit command, if found **-r** edits in source of command (eg. if comes from template)
-remove | removes command
+nothing | asks what to add under this **name** (project, task, cancel)
+`create <name> --templates=osx,python` | creates project under **name** using templates
+project [name] | turns on project
+project [name] [task] | turns on project and executes **task**
+list | list all projects
+list --task|templates | list all tasks|templates within projects 
+edit taskname | helps you edit task
+remove | removes project / task
 rename \<old> \<new> | renames command
-stop | executes cleaning tasks, stops active project and comes back to directory before turning on project
-config | edits config
-aliases | edits names found in left side of this table (adding, changing or removing alias)
+stop | executes stop.sh and comes back to directory before activating project
+config | shows config
+config -e | edits config
+
+### Examples
 
 we are **adding** first project
 
-    $ prm my_project
-    do you want to create [P]roject, [T]ask, [A]lias or [C]ancel
-    P
+    $ <project_manager> my_project
+    do you want to create [p]roject or [c]ancel
+    p
+    
+    opens start in editor
+    > we are adding
 
-opens start in editor
-> we are adding
+        cd ~/my_project/
+        source ./env/bin/activate
 
-    cd ~/my_project/
-    source ./env/bin/activate
+    save
+    
+    opens stop in editor
+    > we are adding
 
-save
+        deactivate
 
-opens stop in editor
-> we are adding
-
-    deactivate
-
-save
+    save
+    
+    Second execution will know that this is project folder and will ask 
+    [my_project] $ <project_manager> new-task
+    do you want to create [t]ask or [c]ancel
+    t
 
 we are **turning on** our project
 > commands from /project_name/start are executed
 
-    $ prm my_project
+    $ <project_manager> my_project -v
     cd ~/my_project/
     source ./env/bin/activate
     [my_project](env)$ 
@@ -74,16 +92,11 @@ and finally our work is done
 we are **turning off** our project
 > commands from /project_name/stop are executed and we are coming back to directory before turning on project
 
-    [my_project](env)$ prm stop
+    [my_project](env)$ <project_manager> stop -v
     deactivate
     $
 
-let's say we created **task** for deploying changes under name of deploy and can take as parameter -n for dry-run
-we turn it like that:
-
-    $ prm project_name deploy -n
-
-it executes project_name/start
-then **task** with parameter -n
-then executes project_name/stop
+we are **executing** task within project
+    
+    [my_project](env)$ <project_manager> task-name -v # it will pass all params towards task
 
